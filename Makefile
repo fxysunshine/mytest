@@ -1,7 +1,7 @@
 
 obj=bitNum delDigitals offsetof symmetry
 all : $(obj)
-bitNum : bitNum.o
+bitNum : bitNum.c
 delDigitals : delDigitals.c
 offsetof : offsetof.c
 symmetry : symmetry.c

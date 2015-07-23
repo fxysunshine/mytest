@@ -5,19 +5,18 @@ int isSymmetryNum(int number)
     if (number < 0)
         return 0;
 
-    int num, new_num;
-    num = number;
+    int ori_num, new_num;
+    ori_num = number;
     new_num = 0;
 
-    while (num)
+    while (number)
     {
-        new_num = new_num * 10 + num % 10;
-        num /= 10;
+        new_num = new_num * 10 + number % 10;
+        number /= 10;
     }
 
-    return (number == new_num);
+    return (ori_num == new_num);
 }
-
 
 int main()
 {

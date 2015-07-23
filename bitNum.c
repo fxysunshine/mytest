@@ -10,7 +10,7 @@ int bitNum(int num)
     {
         if (num % 2)
             ret++;
-        num /= 2;
+        num >>= 1;
     }    
 
     return ret;
