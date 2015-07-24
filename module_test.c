@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <dlfcn.h>
+#include <unistd.h>
 #include "module.h"
 
 int main()

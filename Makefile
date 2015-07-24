@@ -1,15 +1,21 @@
 
-obj=bitNum delDigitals offsetof symmetry module.so module_test
-all : $(obj)
-bitNum : bitNum.c
-delDigitals : delDigitals.c
-offsetof : offsetof.c
-symmetry : symmetry.c
+SRCS = bitNum.c delDigitals.c offsetof.c symmetry.c
+OBJS = $(patsubst %.c, %, $(SRCS))
+TARGET = $(OBJS) module.so module_test
+
+CC = gcc
+CFLAGS = -Wall -I.
+LIBS = -ldl
+
+all : $(TARGET)
+$(OBJS) : % : %.c
+	$(CC) $(CFLAGS) $^ -o $@
+
 module.so : module.c
-	gcc -fPIC -shared -o module.so module.c
+	$(CC) $(CFLAGS) -fPIC -shared $^ -o $@
 module_test : module_test.c
-	gcc -o module_test module_test.c -ldl
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
 
 .PRONY : clean
 clean:
-	rm -rf $(obj) *.o *.so
+	rm -rf $(TARGET) *.o
