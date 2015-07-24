@@ -13,4 +13,12 @@ hw_module HW_MODULE_INFO_SYM = {
     .print = test_print
 };
 
+void __attribute__((constructor)) init()
+{
+    printf("module.so %s\n", __func__);
+}
 
+void __attribute__((destructor)) deinit()
+{
+    printf("module.so %s\n", __func__);
+}

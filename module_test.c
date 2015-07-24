@@ -14,6 +14,7 @@ int main()
 
     getcwd(file_path_getcwd, 128);
     sprintf(path, "%s/module.so", file_path_getcwd);
+    printf("start open the module.so:%s\n", path);
     handle = dlopen(path, RTLD_NOW);
     if (handle == NULL) {
         char const *err_str = dlerror();
@@ -44,6 +45,7 @@ done:
         printf("loaded path=%s id:%d name:%s author:%s\n", path, hmi->id, hmi->name, hmi->author);
         hmi->print(hmi);
         dlclose(handle);
+        printf("module.so closed\n");
         handle = NULL;
     }
 
