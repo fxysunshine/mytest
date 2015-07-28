@@ -5,24 +5,30 @@
     const typeof( ((type *)0)->member ) *__mptr = (ptr);       \
     (type *)( (char *)__mptr - offsetof(type, member) );})
 
-struct test_s
+struct foo
 {
-    int num;
     char ch;
-    float f1;
+    int num;
+    float bar;
 };
 
 int main()
 {
-    struct test_s s;
-    struct test_s *p;
-    printf("offsetof(struct test_s, num) = %ld\n", offsetof(struct test_s, num));
-    printf("offsetof(struct test_s, ch) = %ld\n", offsetof(struct test_s, ch));
-    printf("offsetof(struct test_s, f1) = %ld\n", offsetof(struct test_s, f1));
-    printf("address of s = 0x%p\n", &s);
-    p = container_of(&s.f1, struct test_s, f1);
-    printf("address of s = 0x%p\n", p);
-    printf("address of s = 0x%p\n", container_of(&s.ch, struct test_s, ch));
+    struct foo f;
+    struct foo *p;
+    char *a;
+    char *b;
+    printf("offsetof(struct foo, ch) = %ld\n", offsetof(struct foo, ch));
+    printf("offsetof(struct foo, num) = %ld\n", offsetof(struct foo, num));
+    printf("offsetof(struct foo, bar) = %ld\n", offsetof(struct foo, bar));
+    printf("address of f = 0x%p\n", &f);
+    p = container_of(&f.bar, struct foo, bar);
+    printf("address of f = 0x%p\n", p);
+    printf("address of f = 0x%p\n", container_of(&f.num, struct foo, num));
+
+    a = (char *)&f.bar;
+    b = (char *)&f + offsetof(struct foo, bar);
+    printf("address of a = 0x%p b = 0x%p\n", a, b);
 
     return 0;
 }
