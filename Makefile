@@ -1,10 +1,10 @@
 
-SRCS = bitNum.c delDigitals.c offsetof.c symmetry.c
+SRCS = bitNum.c delDigitals.c offsetof.c symmetry.c pointer.c
 OBJS = $(patsubst %.c, %, $(SRCS))
 TARGET = $(OBJS) module.so module_test
 
 CC = gcc
-CFLAGS = -Wall -I.
+CFLAGS = -g -Wall -I.
 LIBS = -ldl
 
 all : $(TARGET)
