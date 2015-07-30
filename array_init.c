@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 typedef int64_t usecs_t;
 
