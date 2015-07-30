@@ -34,8 +34,13 @@ void memfill(void *dest, size_t destsize, size_t elemsize)
 int main()
 {
     int i;
-    int *a = (int *)malloc(ARRAY_NUM*sizeof(int));
-    int *b = (int *)malloc(ARRAY_NUM*sizeof(int));
+    int *a = malloc(ARRAY_NUM*sizeof(*a));
+    int *b = malloc(ARRAY_NUM*sizeof(*b));
+    if (a == NULL || b == NULL) {
+        printf("no memory in system\n");
+        return -1;
+    }
+
     usecs_t startTime;
 
     startTime = systemTime();
@@ -47,6 +52,9 @@ int main()
     a[0] = 10;
     memfill(a, ARRAY_NUM*sizeof(int), sizeof(int));
     printf("array fast init time %ums\n", (unsigned)((systemTime() - startTime) / 1000));
+
+    free(a);
+    free(b);
 
     return 0;
 }
