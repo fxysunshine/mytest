@@ -1,5 +1,5 @@
 
-SRCS = bitNum.c delDigitals.c offsetof.c symmetry.c pointer.c array_init.c
+SRCS = bitNum.c delDigitals.c offsetof.c symmetry.c pointer.c array_init.c heap_overlap
 OBJS = $(patsubst %.c, %, $(SRCS))
 TARGET = $(OBJS) module.so module_test
 
