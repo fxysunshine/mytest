@@ -11,7 +11,7 @@ SRCS = \
 
 
 OBJS = $(patsubst %.c, %, $(SRCS))
-TARGET = $(OBJS) module.so module_test
+TARGET = $(OBJS) module.so module_test glibc_heap
 
 CC = gcc
 CFLAGS = -g -Wall -I.
@@ -25,6 +25,8 @@ module.so : module.c
 	$(CC) $(CFLAGS) -fPIC -shared $^ -o $@
 module_test : module_test.c
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
+glibc_heap : glibc_heap.c
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) -lpthread
 
 .PRONY : clean
 clean:
