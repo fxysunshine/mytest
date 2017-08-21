@@ -9,6 +9,7 @@ SRCS = \
 	heap_overlap.c \
 	consolidate_forward.c \
 	test_process_stack.c \
+	random_stack \
 
 
 OBJS = $(patsubst %.c, %, $(SRCS))
