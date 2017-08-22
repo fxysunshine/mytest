@@ -1,35 +1,35 @@
-
-SRCS = \
-	bitNum.c \
-	delDigitals.c \
-	offsetof.c \
-	symmetry.c \
-	pointer.c \
-	array_init.c \
-	heap_overlap.c \
-	consolidate_forward.c \
-	test_process_stack.c \
+PROGRAMS = \
+	bitNum \
+	delDigitals \
+	offsetof \
+	symmetry \
+	pointer \
+	array_init \
+       	module.so \
+	module_test \
+	glibc_heap \
+	heap_overlap \
+	consolidate_forward \
+	test_process_stack \
 	random_stack \
+	vuln \
 
 
-OBJS = $(patsubst %.c, %, $(SRCS))
-TARGET = $(OBJS) module.so module_test glibc_heap
-
-CC = gcc
+ifeq ($(PRIV_GLIBC),)
 CFLAGS = -g -Wall -I.
-LIBS = -ldl
-
-all : $(TARGET)
-$(OBJS) : % : %.c
-	$(CC) $(CFLAGS) $^ -o $@
+else
+CFLAGS += -I$(PRIV_GLIBC)/include -g -Wall -I.
+LDFLAGS = -L$(PRIV_GLIBC)/lib -Wl,--rpath=$(PRIV_GLIBC)/lib -Wl,--dynamic-linker=$(PRIV_GLIBC)/lib/ld-linux.so.2
+endif
+ 
+all: $(PROGRAMS)
 
 module.so : module.c
 	$(CC) $(CFLAGS) -fPIC -shared $^ -o $@
 module_test : module_test.c
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
+	$(CC) $(CFLAGS) $^ -o $@ -ldl
 glibc_heap : glibc_heap.c
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) -lpthread
+	$(CC) $(CFLAGS) $^ -o $@ -ldl -lpthread
 
-.PRONY : clean
 clean:
-	rm -rf $(TARGET) *.o
+	rm -rf $(PROGRAMS) *.o
