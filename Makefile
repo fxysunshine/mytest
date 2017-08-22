@@ -1,3 +1,7 @@
+ifeq ($(shell uname -m), x86_64)
+ARCH = -x86-64
+endif
+
 PROGRAMS = \
 	bitNum \
 	delDigitals \
@@ -5,7 +9,7 @@ PROGRAMS = \
 	symmetry \
 	pointer \
 	array_init \
-       	module.so \
+	module.so \
 	module_test \
 	glibc_heap \
 	heap_overlap \
@@ -19,7 +23,7 @@ ifeq ($(PRIV_GLIBC),)
 CFLAGS = -g -Wall -I.
 else
 CFLAGS += -I$(PRIV_GLIBC)/include -g -Wall -I.
-LDFLAGS = -L$(PRIV_GLIBC)/lib -Wl,--rpath=$(PRIV_GLIBC)/lib -Wl,--dynamic-linker=$(PRIV_GLIBC)/lib/ld-linux.so.2
+LDFLAGS = -L$(PRIV_GLIBC)/lib -Wl,--rpath=$(PRIV_GLIBC)/lib -Wl,--dynamic-linker=$(PRIV_GLIBC)/lib/ld-linux$(ARCH).so.2
 endif
  
 all: $(PROGRAMS)
