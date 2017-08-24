@@ -16,19 +16,17 @@ int main(int argc, char* argv[])
         exit(-1);
     }
         
-    if (strlen(argv[1]) > 1020) { /* [1] */
+    if (strlen(argv[1]) > 20) {
         printf("Buffer Overflow Attempt. Exiting...\n");
         exit(-2);
     }
 
-    char* tmp = malloc(20-4); /* [2] */
-    char* p = malloc(1024-4); /* [3] */
-    char* p2 = malloc(1024-4); /* [4] */
-    char* p3 = malloc(1024-4); /* [5] */
+    char* p = malloc(20);
+    char* p2 = malloc(20);
+    char* p3 = malloc(20);
+    memset(p3, 1, 20);
 
-    strcpy(p2,argv[1]); /* [6] */
-
-    free(p); /* [7] */
+    strcpy(p2,argv[1]);
 
     return 0;
 }

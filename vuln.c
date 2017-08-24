@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-	char buf[256];
+	char buf[8];
 	strcpy(buf, argv[1]);
 	printf("Input:%s\n", buf);
 	return 0;
