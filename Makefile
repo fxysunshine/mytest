@@ -17,6 +17,7 @@ PROGRAMS = \
 	test_process_stack \
 	random_stack \
 	vuln \
+	memory_profile \
 
 
 ifeq ($(PRIV_GLIBC),)
