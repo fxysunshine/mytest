@@ -18,12 +18,12 @@ PROGRAMS = \
 	random_stack \
 	vuln \
 	memory_profile \
+	weak_symbol1 \
+	weak_symbol2 \
 
 
-ifeq ($(PRIV_GLIBC),)
 CFLAGS = -g -Wall -I.
-else
-CFLAGS += -I$(PRIV_GLIBC)/include -g -Wall -I.
+ifneq ($(PRIV_GLIBC),)
 LDFLAGS = -L$(PRIV_GLIBC)/lib -Wl,--rpath=$(PRIV_GLIBC)/lib -Wl,--dynamic-linker=$(PRIV_GLIBC)/lib/ld-linux$(ARCH).so.2
 endif
  
@@ -34,6 +34,10 @@ module.so : module.c
 module_test : module_test.c
 	$(CC) $(CFLAGS) $^ -o $@ -ldl
 glibc_heap : glibc_heap.c
+	$(CC) $(CFLAGS) $^ -o $@ -ldl -lpthread
+weak_symbol1 : weak_symbol.c
+	$(CC) $(CFLAGS) $^ -o $@ -ldl
+weak_symbol2 : weak_symbol.c
 	$(CC) $(CFLAGS) $^ -o $@ -ldl -lpthread
 
 clean:
