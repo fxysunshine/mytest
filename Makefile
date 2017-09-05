@@ -20,6 +20,7 @@ PROGRAMS = \
 	memory_profile \
 	weak_symbol1 \
 	weak_symbol2 \
+	helloworld \
 
 
 CFLAGS = -g -Wall -I.
@@ -39,6 +40,10 @@ weak_symbol1 : weak_symbol.c
 	$(CC) $(CFLAGS) $^ -o $@ -ldl
 weak_symbol2 : weak_symbol.c
 	$(CC) $(CFLAGS) $^ -o $@ -ldl -lpthread
+helloworld.o : helloworld.c
+	$(CC) -c -fno-builtin $^ -o $@
+helloworld : helloworld.o
+	ld -static -e nomain $^ -o $@
 
 clean:
 	rm -rf $(PROGRAMS) *.o
