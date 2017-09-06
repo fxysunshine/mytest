@@ -20,8 +20,11 @@ PROGRAMS = \
 	memory_profile \
 	weak_symbol1 \
 	weak_symbol2 \
-	helloworld \
 
+ifneq ($(filter $(shell uname -m), i686 i386),)
+PROGRAMS += \
+	helloworld
+endif
 
 CFLAGS = -g -Wall -I.
 ifneq ($(PRIV_GLIBC),)
