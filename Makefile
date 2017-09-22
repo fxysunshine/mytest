@@ -20,6 +20,7 @@ PROGRAMS = \
 	memory_profile \
 	weak_symbol1 \
 	weak_symbol2 \
+	stackOOB \
 
 ifneq ($(filter $(shell uname -m), i686 i386),)
 PROGRAMS += \
@@ -47,6 +48,8 @@ helloworld.o : helloworld.c
 	$(CC) -c -fno-builtin $^ -o $@
 helloworld : helloworld.o
 	ld -static -e nomain $^ -o $@
+stackOOB : stackOOB.cc 
+	gcc -O -g -fsanitize=address $^ -o $@
 
 clean:
 	rm -rf $(PROGRAMS) *.o
