@@ -49,7 +49,7 @@ helloworld.o : helloworld.c
 helloworld : helloworld.o
 	ld -static -e nomain $^ -o $@
 stackOOB : stackOOB.cc 
-	gcc -O -g -fsanitize=address $^ -o $@
+	$(CC) -O -g -fsanitize=address $^ -o $@ -lstdc++
 
 clean:
 	rm -rf $(PROGRAMS) *.o
