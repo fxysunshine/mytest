@@ -21,7 +21,6 @@ int main(int argc, char* argv[])
         exit(-2);
     }
 
-    char* p = malloc(20);
     char* p2 = malloc(20);
     char* p3 = malloc(20);
     memset(p3, 1, 20);
