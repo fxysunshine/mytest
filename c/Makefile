@@ -14,7 +14,6 @@ PROGRAMS = \
 	glibc_heap \
 	heap_overlap \
 	test_process_stack \
-	random_stack \
 	weak_symbol1 \
 	weak_symbol2 \
 	module.so \

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <unistd.h>
 
 static void handler(int signal_number, siginfo_t* info, void* p) {
     (void)signal_number;
