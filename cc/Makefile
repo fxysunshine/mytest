@@ -9,7 +9,7 @@ PROGRAMS = \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11
-LDFLAGS = -lpthread -ldl
+LDFLAGS = -pthread -ldl
 
 all: $(PROGRAMS)
 
