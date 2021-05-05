@@ -5,6 +5,7 @@ endif
 PROGRAMS = \
 	quick_sort \
 	stackOOB \
+	atomic \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11
