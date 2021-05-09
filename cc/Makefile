@@ -6,6 +6,7 @@ PROGRAMS = \
 	quick_sort \
 	stackOOB \
 	atomic \
+	stack_safe \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11

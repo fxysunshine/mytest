@@ -1,3 +1,6 @@
+CC=clang
+CXX=clang++
+export CC CXX
 
 SUBDIRS=cc c
 
