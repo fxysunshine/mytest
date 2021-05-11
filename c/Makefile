@@ -18,6 +18,7 @@ PROGRAMS = \
 	weak_symbol2 \
 	module.so \
 	module_test \
+	x11_window \
 
 ifneq ($(filter $(shell uname -m), i686 i386),)
 PROGRAMS += \
@@ -42,6 +43,8 @@ helloworld.o : helloworld.c
 	$(CC) -c -fno-builtin $^ -o $@
 helloworld : helloworld.o
 	ld -static -e nomain $^ -o $@
+x11_window : x11_window.c
+	$(CC) $(CFLAGS) $^ -o $@ -lX11
 
 clean:
 	rm -rf $(PROGRAMS) *.o
