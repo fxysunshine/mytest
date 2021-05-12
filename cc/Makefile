@@ -7,6 +7,8 @@ PROGRAMS = \
 	stackOOB \
 	atomic \
 	stack_safe \
+	queue_safe \
+	move \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11
