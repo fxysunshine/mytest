@@ -13,3 +13,4 @@ clean:
 	for dir in $(SUBDIRS);\
 	  do make -C $$dir clean || exit 1;\
 	done
+	rm -rf build
