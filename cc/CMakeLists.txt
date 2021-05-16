@@ -1,7 +1,12 @@
+set(Programs
+  queue_safe
+  atomic
+  move
+  quick_sort
+  stack_safe
+  stackOOB
+)
 
-SINGLE_BINARY_TARGET(queue_safe)
-SINGLE_BINARY_TARGET(atomic)
-SINGLE_BINARY_TARGET(move)
-SINGLE_BINARY_TARGET(quick_sort)
-SINGLE_BINARY_TARGET(stack_safe)
-SINGLE_BINARY_TARGET(stackOOB)
+foreach(program ${Programs})
+  SINGLE_BINARY_TARGET(${program})
+endforeach(program)
