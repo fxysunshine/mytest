@@ -9,6 +9,8 @@ PROGRAMS = \
 	stack_safe \
 	queue_safe \
 	move \
+	async \
+	future \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11

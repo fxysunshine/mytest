@@ -18,11 +18,12 @@ PROGRAMS = \
 	weak_symbol2 \
 	module.so \
 	module_test \
-	x11_window \
 
 ifneq ($(filter $(shell uname -m), i686 i386),)
 PROGRAMS += \
-	helloworld
+	helloworld \
+	x11_window \
+
 endif
 
 CFLAGS = -g -Wall -I.
@@ -47,4 +48,4 @@ x11_window : x11_window.c
 	$(CC) $(CFLAGS) $^ -o $@ -lX11
 
 clean:
-	rm -rf $(PROGRAMS) *.o
+	@rm -rf $(PROGRAMS) *.o *.dSYM

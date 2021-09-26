@@ -5,6 +5,8 @@ set(Programs
   quick_sort
   stack_safe
   stackOOB
+  async
+  future
 )
 
 foreach(program ${Programs})
