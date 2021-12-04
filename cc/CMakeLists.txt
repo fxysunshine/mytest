@@ -7,6 +7,7 @@ set(Programs
   stackOOB
   async
   future
+  process_name
 )
 
 foreach(program ${Programs})

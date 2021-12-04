@@ -11,6 +11,7 @@ PROGRAMS = \
 	move \
 	async \
 	future \
+	process_name \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11
