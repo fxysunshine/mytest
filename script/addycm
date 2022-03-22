@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cp $HOME/.vim_runtime/.ycm_extra_conf.py .
+
+DIRS=$(find ./ \( -path './.git' \
+               -o -path './.pc' \
+               -o -path './.vscode' \
+               -o -path './cmake' \
+               -o -path './out' \
+               -o -path './build' \
+               -o -path './repo' \
+               \) -a -prune -o -type d -print)
+
+for i in $DIRS; do
+   line="'-I$i',"
+   sed -i "N;98a$line" .ycm_extra_conf.py
+done
+
+mycscope .

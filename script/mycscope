@@ -1,40 +1,19 @@
 #!/bin/bash
 
-DIR=$(pwd)
-find $DIR -name "*.py" \
--o -name "*.[ch]" \
--o -name "*.cc" \
--o -name "*.cpp" \
--o -name "*.hpp" \
--o -name "*.java" \
-> $DIR/cscope.files
+find ./ -type f -path './out/*' -prune -o -path './third_party/*' -prune \
+-o -name '*.[ch]' \
+-o -name '*.cc' \
+-o -name '*.cpp' \
+-o -name '*.hpp' \
+-o -name '*.java' \
+> ./cscope.files
 
 # -b: just build
 # -q: create inverted index
 # -k: kernel mode
 cscope -Rbqk
 
-TOPATH=$HOME/.cscope/$DIR
-mkdir -p $TOPATH
-mv cscope.* $TOPATH
+#ctags -R --tag-relative=yes
+ctags -L ./cscope.files
 
-ctags -R
-
-mv tags $TOPATH
-
-# storage path gc
-prefix="$HOME/.cscope"
-paths=$(find $prefix -type d)
-for path in $paths
-do
-  if [ "$path" = "$prefix" ]; then
-    continue
-  fi
-  real=${path#$prefix}
-  if [ "$real" = "" -o "$real" = "/" ]; then
-    continue
-  fi
-  if [ ! -d "$real" ]; then
-    rm -rf $path
-  fi
-done
+rm -rf ./cscope.files

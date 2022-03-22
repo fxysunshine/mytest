@@ -1,0 +1,9 @@
+#!/bin/bash
+
+path='/workspace/Trash'
+
+lists=$(ls $path)
+for dir in $lists; do
+  echo $path/$dir
+  $HOME/bin/rmdir_sleep.py $path/$dir
+done
