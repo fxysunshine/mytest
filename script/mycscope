@@ -1,6 +1,11 @@
 #!/bin/bash
 
-find ./ -type f -path './out/*' -prune -o -path './third_party/*' -prune \
+find . \
+\( \
+ -path './out' -o \
+ -path './build' -o \
+ -path './Source/ThirdParty' \
+\) -prune \
 -o -name '*.[ch]' \
 -o -name '*.cc' \
 -o -name '*.cpp' \
@@ -16,4 +21,3 @@ cscope -Rbqk
 #ctags -R --tag-relative=yes
 ctags -L ./cscope.files
 
-rm -rf ./cscope.files
