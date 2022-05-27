@@ -1,3 +1,7 @@
+/*
+ example program from
+ https://jan.newmarch.name/Wayland/Input/
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +15,7 @@ seat_handle_capabilities(void *data, struct wl_seat *seat, enum wl_seat_capabili
 {
     if (caps & WL_SEAT_CAPABILITY_POINTER) {
         printf("Display has a pointer\n");
-    } 
+    }
 
     if (caps & WL_SEAT_CAPABILITY_KEYBOARD) {
         printf("Display has a keyboard\n");
@@ -63,6 +67,6 @@ int main(int argc, char **argv)
 
     wl_display_disconnect(display);
     printf("disconnected from display\n");
-   
+
     exit(0);
 }

@@ -1,3 +1,7 @@
+/*
+ example program from
+ https://jan.newmarch.name/Wayland/Input/
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,7 +47,7 @@ pointer_handle_enter(void *data, struct wl_pointer *pointer,
     struct wl_cursor_image *image;
 
     fprintf(stderr, "Pointer entered surface %p at %d %d\n", surface, sx, sy);
-   
+
     if (default_cursor) {
         image = default_cursor->images[0];
         buffer = wl_cursor_image_get_buffer(image);
@@ -174,7 +178,7 @@ create_window()
     } else {
         fprintf(stderr, "Made current failed\n");
     }
-   
+
     glClearColor(1.0, 1.0, 0.0, 0.1);
     glClear(GL_COLOR_BUFFER_BIT);
     glFlush();
@@ -256,9 +260,9 @@ init_egl()
     printf("EGL has %d configs\n", count);
 
     configs = calloc(count, sizeof *configs);
-   
+
     eglChooseConfig(egl_display, config_attribs, configs, count, &n);
-   
+
     for (i = 0; i < n; i++) {
         eglGetConfigAttrib(egl_display, configs[i], EGL_BUFFER_SIZE, &size);
         printf("Buffer size for config %d is %d\n", i, size);
@@ -303,7 +307,7 @@ int main(int argc, char **argv)
 
     shell_surface = wl_shell_get_shell_surface(shell, surface);
     wl_shell_surface_set_toplevel(shell_surface);
-   
+
     wl_shell_surface_add_listener(shell_surface, &shell_surface_listener, NULL);
 
     init_egl();
@@ -320,6 +324,6 @@ int main(int argc, char **argv)
 
     wl_display_disconnect(display);
     printf("disconnected from display\n");
-   
+
     exit(0);
 }

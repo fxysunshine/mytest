@@ -21,6 +21,7 @@ PROGRAMS = \
 	cursor \
 	seat \
 	pointer \
+	keyboard \
 
 ifneq ($(filter $(shell uname -m), i686 i386),)
 PROGRAMS += \
@@ -54,6 +55,8 @@ cursor : cursor.c
 seat : seat.c
 	$(CC) $(CFLAGS) $^ -o $@ -lwayland-client
 pointer: pointer.c
+	$(CC) $(CFLAGS) $^ -o $@ -lEGL -lGLESv2 -lwayland-client -lwayland-egl
+keyboard : keyboard.c
 	$(CC) $(CFLAGS) $^ -o $@ -lEGL -lGLESv2 -lwayland-client -lwayland-egl
 
 clean:

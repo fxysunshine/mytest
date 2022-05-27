@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <linux/input.h> // for keyboard
 #include <wayland-client.h>
 #include <wayland-server.h>
 #include <wayland-client-protocol.h>
@@ -23,7 +24,7 @@ struct wl_shell_surface *shell_surface;
 
 // input devices
 struct wl_seat *seat;
-struct wl_pointer *pointer;
+struct wl_keyboard *keyboard;
 
 EGLDisplay egl_display;
 EGLConfig egl_conf;
@@ -31,59 +32,63 @@ EGLSurface egl_surface;
 EGLContext egl_context;
 
 static void
-pointer_handle_enter(void *data, struct wl_pointer *pointer,
-                     uint32_t serial, struct wl_surface *surface,
-                     wl_fixed_t sx, wl_fixed_t sy)
+keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
+                       uint32_t format, int fd, uint32_t size)
 {
-    fprintf(stderr, "Pointer entered surface %p at %d %d\n", surface, sx, sy);
 }
 
 static void
-pointer_handle_leave(void *data, struct wl_pointer *pointer,
-                     uint32_t serial, struct wl_surface *surface)
+keyboard_handle_enter(void *data, struct wl_keyboard *keyboard,
+                      uint32_t serial, struct wl_surface *surface,
+                      struct wl_array *keys)
 {
-    fprintf(stderr, "Pointer left surface %p\n", surface);
+    fprintf(stderr, "Keyboard gained focus\n");
 }
 
 static void
-pointer_handle_motion(void *data, struct wl_pointer *pointer,
-                      uint32_t time, wl_fixed_t sx, wl_fixed_t sy)
+keyboard_handle_leave(void *data, struct wl_keyboard *keyboard,
+                      uint32_t serial, struct wl_surface *surface)
 {
-    printf("Pointer moved at %d %d\n", sx, sy);
+    fprintf(stderr, "Keyboard lost focus\n");
 }
 
 static void
-pointer_handle_button(void *data, struct wl_pointer *wl_pointer,
-                      uint32_t serial, uint32_t time, uint32_t button,
-                      uint32_t state)
+keyboard_handle_key(void *data, struct wl_keyboard *keyboard,
+                    uint32_t serial, uint32_t time, uint32_t key,
+                    uint32_t state)
 {
-    printf("Pointer button\n");
+    fprintf(stderr, "Key is %d state is %d\n", key, state);
 }
 
 static void
-pointer_handle_axis(void *data, struct wl_pointer *wl_pointer,
-                    uint32_t time, uint32_t axis, wl_fixed_t value)
+keyboard_handle_modifiers(void *data, struct wl_keyboard *keyboard,
+                          uint32_t serial, uint32_t mods_depressed,
+                          uint32_t mods_latched, uint32_t mods_locked,
+                          uint32_t group)
 {
-    printf("Pointer handle axis\n");
+    fprintf(stderr, "Modifiers depressed %d, latched %d, locked %d, group %d\n",
+        mods_depressed, mods_latched, mods_locked, group);
 }
 
-static const struct wl_pointer_listener pointer_listener = {
-    pointer_handle_enter,
-    pointer_handle_leave,
-    pointer_handle_motion,
-    pointer_handle_button,
-    pointer_handle_axis,
+static const struct wl_keyboard_listener keyboard_listener = {
+    keyboard_handle_keymap,
+    keyboard_handle_enter,
+    keyboard_handle_leave,
+    keyboard_handle_key,
+    keyboard_handle_modifiers,
 };
 
+
 static void
-seat_handle_capabilities(void *data, struct wl_seat *seat, enum wl_seat_capability caps)
+seat_handle_capabilities(void *data, struct wl_seat *seat,
+                         enum wl_seat_capability caps)
 {
-    if ((caps & WL_SEAT_CAPABILITY_POINTER) && !pointer) {
-        pointer = wl_seat_get_pointer(seat);
-        wl_pointer_add_listener(pointer, &pointer_listener, NULL);
-    } else if (!(caps & WL_SEAT_CAPABILITY_POINTER) && pointer) {
-        wl_pointer_destroy(pointer);
-        pointer = NULL;
+    if (caps & WL_SEAT_CAPABILITY_KEYBOARD) {
+        keyboard = wl_seat_get_keyboard(seat);
+        wl_keyboard_add_listener(keyboard, &keyboard_listener, NULL);
+    } else if (!(caps & WL_SEAT_CAPABILITY_KEYBOARD)) {
+        wl_keyboard_destroy(keyboard);
+        keyboard = NULL;
     }
 }
 
@@ -93,7 +98,7 @@ static const struct wl_seat_listener seat_listener = {
 
 void
 global_registry_handler(void *data, struct wl_registry *registry, uint32_t id,
-                        const char *interface, uint32_t version)
+            const char *interface, uint32_t version)
 {
     printf("Got a registry event for %s id %d\n", interface, id);
     if (strcmp(interface, "wl_compositor") == 0) {
@@ -119,8 +124,7 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
-redraw(void *data, struct wl_callback *callback, uint32_t time)
-{
+redraw(void *data, struct wl_callback *callback, uint32_t time) {
     printf("Redrawing\n");
 }
 
@@ -147,6 +151,7 @@ create_window()
     }
 
     egl_surface = eglCreateWindowSurface(egl_display, egl_conf, egl_window, NULL);
+
     if (eglMakeCurrent(egl_display, egl_surface, egl_surface, egl_context)) {
         fprintf(stderr, "Made current\n");
     } else {
@@ -166,6 +171,7 @@ create_window()
     wl_display_roundtrip(display);
 }
 
+
 static void
 handle_ping(void *data, struct wl_shell_surface *shell_surface, uint32_t serial)
 {
@@ -174,7 +180,8 @@ handle_ping(void *data, struct wl_shell_surface *shell_surface, uint32_t serial)
 }
 
 static void
-handle_configure(void *data, struct wl_shell_surface *shell_surface, uint32_t edges, int32_t width, int32_t height)
+handle_configure(void *data, struct wl_shell_surface *shell_surface,
+         uint32_t edges, int32_t width, int32_t height)
 {
 }
 
@@ -190,8 +197,7 @@ static const struct wl_shell_surface_listener shell_surface_listener = {
 };
 
 static void
-init_egl()
-{
+init_egl() {
     EGLint major, minor, count, n, size;
     EGLConfig *configs;
     int i;
@@ -245,7 +251,6 @@ init_egl()
         egl_conf = configs[i];
         break;
     }
-
     egl_context = eglCreateContext(egl_display, egl_conf, EGL_NO_CONTEXT, context_attribs);
 }
 
@@ -291,7 +296,7 @@ int main(int argc, char **argv)
     wl_callback_add_listener(callback, &configure_callback_listener, NULL);
 
     while (wl_display_dispatch(display) != -1) {
-        ;
+       ;
     }
 
     wl_display_disconnect(display);

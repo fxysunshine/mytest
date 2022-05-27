@@ -15,6 +15,7 @@ set(WaylandTests
     cursor
     seat
     pointer
+    keyboard
 )
 
 foreach(program ${Programs})
