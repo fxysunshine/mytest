@@ -25,19 +25,14 @@ struct wl_cursor_theme *cursor_theme;
 struct wl_cursor *default_cursor;
 struct wl_surface *cursor_surface;
 
-
 // input devices
 struct wl_seat *seat;
 struct wl_pointer *pointer;
-//struct wl_touch *touch;
-//struct wl_keyboard *keyboard;
-
 
 EGLDisplay egl_display;
 EGLConfig egl_conf;
 EGLSurface egl_surface;
 EGLContext egl_context;
-
 
 static void
 pointer_handle_enter(void *data, struct wl_pointer *pointer,
@@ -48,7 +43,7 @@ pointer_handle_enter(void *data, struct wl_pointer *pointer,
     struct wl_cursor_image *image;
 
     fprintf(stderr, "Pointer entered surface %p at %d %d\n", surface, sx, sy);
-    
+   
     if (default_cursor) {
         image = default_cursor->images[0];
         buffer = wl_cursor_image_get_buffer(image);
@@ -79,10 +74,8 @@ pointer_handle_button(void *data, struct wl_pointer *wl_pointer,
                       uint32_t state)
 {
     printf("Pointer button\n");
-    
     if (button == BTN_LEFT && state == WL_POINTER_BUTTON_STATE_PRESSED)
         wl_shell_surface_move(shell_surface, seat, serial);
-    
 }
 
 static void
@@ -101,8 +94,7 @@ static const struct wl_pointer_listener pointer_listener = {
 };
 
 static void
-seat_handle_capabilities(void *data, struct wl_seat *seat,
-                         enum wl_seat_capability caps)
+seat_handle_capabilities(void *data, struct wl_seat *seat, enum wl_seat_capability caps)
 {
     if ((caps & WL_SEAT_CAPABILITY_POINTER) && !pointer) {
         pointer = wl_seat_get_pointer(seat);
@@ -119,7 +111,7 @@ static const struct wl_seat_listener seat_listener = {
 
 void
 global_registry_handler(void *data, struct wl_registry *registry, uint32_t id,
-            const char *interface, uint32_t version)
+                        const char *interface, uint32_t version)
 {
     printf("Got a registry event for %s id %d\n", interface, id);
     if (strcmp(interface, "wl_compositor") == 0) {
@@ -149,7 +141,8 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
-redraw(void *data, struct wl_callback *callback, uint32_t time) {
+redraw(void *data, struct wl_callback *callback, uint32_t time)
+{
     printf("Redrawing\n");
 }
 
@@ -181,7 +174,7 @@ create_window()
     } else {
         fprintf(stderr, "Made current failed\n");
     }
-    
+   
     glClearColor(1.0, 1.0, 0.0, 0.1);
     glClear(GL_COLOR_BUFFER_BIT);
     glFlush();
@@ -194,7 +187,6 @@ create_window()
     wl_display_dispatch(display);
     wl_display_roundtrip(display);
 }
-
 
 static void
 handle_ping(void *data, struct wl_shell_surface *shell_surface, uint32_t serial)
@@ -224,7 +216,6 @@ init_egl()
 {
     EGLint major, minor, count, n, size;
     EGLConfig *configs;
-    EGLBoolean ret;
     int i;
     EGLint config_attribs[] = {
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
@@ -265,15 +256,14 @@ init_egl()
     printf("EGL has %d configs\n", count);
 
     configs = calloc(count, sizeof *configs);
-    
-    ret = eglChooseConfig(egl_display, config_attribs, configs, count, &n);
-    
+   
+    eglChooseConfig(egl_display, config_attribs, configs, count, &n);
+   
     for (i = 0; i < n; i++) {
         eglGetConfigAttrib(egl_display, configs[i], EGL_BUFFER_SIZE, &size);
         printf("Buffer size for config %d is %d\n", i, size);
         eglGetConfigAttrib(egl_display, configs[i], EGL_RED_SIZE, &size);
         printf("Red size for config %d is %d\n", i, size);
- 
         egl_conf = configs[i];
         break;
     }
@@ -313,7 +303,7 @@ int main(int argc, char **argv)
 
     shell_surface = wl_shell_get_shell_surface(shell, surface);
     wl_shell_surface_set_toplevel(shell_surface);
-    
+   
     wl_shell_surface_add_listener(shell_surface, &shell_surface_listener, NULL);
 
     init_egl();
@@ -330,6 +320,6 @@ int main(int argc, char **argv)
 
     wl_display_disconnect(display);
     printf("disconnected from display\n");
-    
+   
     exit(0);
 }
