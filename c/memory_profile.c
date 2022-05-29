@@ -30,6 +30,8 @@ int main()
     C = malloc(0x80 - 8);
     free(B);
 
+    (void)A;
+    (void)C;
     getchar();
 
     return 0;

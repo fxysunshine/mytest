@@ -32,3 +32,9 @@ foreach(program ${WaylandTests})
     wayland-egl
   )
 endforeach(program)
+
+add_executable(client client.c xdg-shell-protocol.c)
+target_link_libraries(client PRIVATE
+    wayland-client
+    rt
+)
