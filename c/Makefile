@@ -7,7 +7,6 @@ PROGRAMS = \
 	delDigitals \
 	offsetof \
 	symmetry \
-	pointer \
 	consolidate_forward \
 	vuln \
 	memory_profile \
@@ -18,11 +17,16 @@ PROGRAMS = \
 	weak_symbol2 \
 	module.so \
 	module_test \
+
+ifeq ($(shell uname -s), Linux)
+PROGRAMS += \
 	cursor \
 	seat \
 	pointer \
 	keyboard \
 	client \
+
+endif
 
 ifneq ($(filter $(shell uname -m), i686 i386),)
 PROGRAMS += \

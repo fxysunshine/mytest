@@ -11,16 +11,18 @@ set(Programs
   weak_symbol
 )
 
+foreach(program ${Programs})
+  SINGLE_BINARY_TARGET_C(${program})
+endforeach(program)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+
 set(WaylandTests
     cursor
     seat
     pointer
     keyboard
 )
-
-foreach(program ${Programs})
-  SINGLE_BINARY_TARGET_C(${program})
-endforeach(program)
 
 foreach(program ${WaylandTests})
   add_executable(${program} ${program}.c)
@@ -38,3 +40,5 @@ target_link_libraries(client PRIVATE
     wayland-client
     rt
 )
+
+endif()
