@@ -10,6 +10,9 @@ set(Programs
   vuln
   weak_symbol
 )
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+  list(APPEND Programs uinput)
+endif()
 
 foreach(program ${Programs})
   SINGLE_BINARY_TARGET_C(${program})
@@ -18,10 +21,10 @@ endforeach(program)
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
 set(WaylandTests
-    cursor
-    seat
-    pointer
-    keyboard
+  cursor
+  seat
+  pointer
+  keyboard
 )
 
 foreach(program ${WaylandTests})

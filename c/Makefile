@@ -25,6 +25,7 @@ PROGRAMS += \
 	pointer \
 	keyboard \
 	client \
+	uinput \
 
 endif
 
@@ -36,7 +37,7 @@ PROGRAMS += \
 endif
 
 CFLAGS = -g -Wall -I.
- 
+
 all: $(PROGRAMS)
 
 module.so : module.c
