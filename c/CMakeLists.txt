@@ -25,6 +25,7 @@ set(WaylandTests
   seat
   pointer
   keyboard
+  egl_display
 )
 
 foreach(program ${WaylandTests})

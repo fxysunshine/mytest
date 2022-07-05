@@ -26,6 +26,7 @@ PROGRAMS += \
 	keyboard \
 	client \
 	uinput \
+	egl_display \
 
 endif
 
@@ -66,6 +67,8 @@ keyboard : keyboard.c
 	$(CC) $(CFLAGS) $^ -o $@ -lEGL -lGLESv2 -lwayland-client -lwayland-egl
 client : client.c xdg-shell-protocol.c
 	$(CC) $(CFLAGS) $^ -o $@ -lwayland-client -lrt
+egl_display: egl_display.c
+	$(CC) $(CFLAGS) $^ -o $@ -lEGL -lGLESv2
 
 clean:
 	@rm -rf $(PROGRAMS) *.o *.dSYM
