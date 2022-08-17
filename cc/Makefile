@@ -12,6 +12,8 @@ PROGRAMS = \
 	async \
 	future \
 	process_name \
+	rvo_nrvo \
+	rvo_nrvo_no \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11
@@ -21,6 +23,9 @@ all: $(PROGRAMS)
 
 stackOOB : stackOOB.cc
 	$(CC) -O -g -fsanitize=address $^ -o $@ -lstdc++
+
+rvo_nrvo_no : rvo_nrvo.cc
+	$(CC) -O -g -fno-elide-constructors $^ -o $@ -lstdc++
 
 clean:
 	@rm -rf $(PROGRAMS) *.o *.dSYM

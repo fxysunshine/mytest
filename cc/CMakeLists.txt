@@ -8,6 +8,7 @@ set(Programs
   async
   future
   process_name
+  rvo_nrvo
 )
 
 foreach(program ${Programs})
