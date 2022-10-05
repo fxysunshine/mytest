@@ -14,6 +14,7 @@ PROGRAMS = \
 	process_name \
 	rvo_nrvo \
 	rvo_nrvo_no \
+	constructor \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11

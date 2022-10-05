@@ -9,6 +9,7 @@ set(Programs
   future
   process_name
   rvo_nrvo
+  constructor
 )
 
 foreach(program ${Programs})
