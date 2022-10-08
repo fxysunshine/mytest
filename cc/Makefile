@@ -15,6 +15,7 @@ PROGRAMS = \
 	rvo_nrvo \
 	rvo_nrvo_no \
 	constructor \
+	test \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++11

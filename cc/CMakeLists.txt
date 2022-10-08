@@ -10,6 +10,7 @@ set(Programs
   process_name
   rvo_nrvo
   constructor
+  test
 )
 
 foreach(program ${Programs})
