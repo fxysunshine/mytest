@@ -25,7 +25,9 @@ int main()
 {
     char str[256];
     printf("input the string(max len 255): ");
-    scanf("%[^\n]", str);
+    if (scanf("%[^\n]", str) < 0) {
+      printf("read fail\n");
+    }
     int num = delDigitals(str);
     printf("Del %d numbers in str:%s\n", num, str);
 

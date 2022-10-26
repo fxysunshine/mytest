@@ -18,7 +18,7 @@ PROGRAMS = \
 	test \
 
 CFLAGS = -g -Wall -I.
-CXXFLAGS = -g -std=c++11
+CXXFLAGS = -g -std=c++17
 LDFLAGS = -pthread -ldl
 
 all: $(PROGRAMS)

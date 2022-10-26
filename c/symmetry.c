@@ -22,7 +22,9 @@ int main()
 {
     int num;
     printf("input the number:");
-    scanf("%d", &num);
+    if (scanf("%d", &num) < 0) {
+      printf("scanf failed\n");
+    }
     if (isSymmetryNum(num))
         printf("%d is Symmetry number\n", num);
     else

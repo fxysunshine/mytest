@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12.1)
 
 SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -g -Wall")
-SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -g -std=c++11 -pthread")
+SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -g -std=c++17 -pthread")
 
 # Project name.
 project(mytest)
