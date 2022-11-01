@@ -32,6 +32,24 @@ int foo(int para) {
   return para;
 }
 
+struct A;
+struct B;
+
+struct A {
+    std::shared_ptr<B> pointer;
+    ~A() {
+        std::cout << "A destroy" << std::endl;
+    }
+};
+
+struct B {
+    //std::shared_ptr<A> pointer;
+    std::weak_ptr<A> pointer;
+    ~B() {
+        std::cout << "B destroy" << std::endl;
+    }
+};
+
 int main() {
     std::cout << "cplusplus version: " << __cplusplus << std::endl;
 
@@ -68,6 +86,12 @@ int main() {
     };
     std::cout << func(10) << std::endl;
     std::cout << func2(10) << std::endl;
+
+    // shared_ptr reference
+    auto a = std::make_shared<A>();
+    auto b = std::make_shared<B>();
+    a->pointer = b;
+    b->pointer = a;
 
     return 0;
 }
