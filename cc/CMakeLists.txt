@@ -11,6 +11,7 @@ set(Programs
   rvo_nrvo
   constructor
   test
+  cpptest
 )
 
 foreach(program ${Programs})

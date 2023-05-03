@@ -16,6 +16,7 @@ PROGRAMS = \
 	rvo_nrvo_no \
 	constructor \
 	test \
+	cpptest \
 
 CFLAGS = -g -Wall -I.
 CXXFLAGS = -g -std=c++17
